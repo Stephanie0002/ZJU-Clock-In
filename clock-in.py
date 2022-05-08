@@ -9,6 +9,9 @@ import datetime
 import time
 import sys
 
+import ddddocr
+
+ocr = ddddocr.DdddOcr()
 
 class ClockIn(object):
     """Hit card class
@@ -29,10 +32,16 @@ class ClockIn(object):
         self.login_url = "https://zjuam.zju.edu.cn/cas/login?service=https%3A%2F%2Fhealthreport.zju.edu.cn%2Fa_zju%2Fapi%2Fsso%2Findex%3Fredirect%3Dhttps%253A%252F%252Fhealthreport.zju.edu.cn%252Fncov%252Fwap%252Fdefault%252Findex"
         self.base_url = "https://healthreport.zju.edu.cn/ncov/wap/default/index"
         self.save_url = "https://healthreport.zju.edu.cn/ncov/wap/default/save"
+        self.captcha_url = 'https://healthreport.zju.edu.cn/ncov/wap/default/code'
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"
         }
         self.sess = requests.Session()
+
+    def get_captcha(self):
+        resp = self.sess.get(self.captcha_url, headers=self.headers)
+        captcha = ocr.classification(resp.content)
+        return(captcha)
 
     def login(self):
         """Login to ZJU platform"""
@@ -108,6 +117,8 @@ class ClockIn(object):
         new_info['jcqzrq'] = ""
         new_info['gwszdd'] = ""
         new_info['szgjcs'] = ""
+        # captcha
+        new_info['verifyCode'] = self.get_captcha()
 
         # 2021.08.05 Fix 2
         magics = re.findall(r'"([0-9a-f]{32})":\s*"([^\"]+)"', html)
