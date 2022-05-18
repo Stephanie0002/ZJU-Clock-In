@@ -109,6 +109,8 @@ class ClockIn(object):
         new_info["province"] = new_info["area"].split(' ')[0]
         new_info["city"] = new_info["area"].split(' ')[1]
         # form change
+        new_info['sfzx'] = 1
+        new_info['campus'] = 2      # 1 for zjg, 2 for yq
         new_info['jrdqtlqk[]'] = 0
         new_info['jrdqjcqk[]'] = 0
         new_info['sfsqhzjkk'] = 1   # 是否申领杭州健康码
@@ -118,7 +120,7 @@ class ClockIn(object):
         new_info['gwszdd'] = ""
         new_info['szgjcs'] = ""
         # captcha
-        new_info['verifyCode'] = self.get_captcha()
+        # new_info['verifyCode'] = self.get_captcha()
 
         # 2021.08.05 Fix 2
         magics = re.findall(r'"([0-9a-f]{32})":\s*"([^\"]+)"', html)
