@@ -111,6 +111,7 @@ class ClockIn(object):
         # form change
         new_info['sfzx'] = 1
         new_info['campus'] = 2      # 1 for zjg, 2 for yq
+        new_info['internship'] = 3  # 
         new_info['jrdqtlqk[]'] = 0
         new_info['jrdqjcqk[]'] = 0
         new_info['sfsqhzjkk'] = 1   # 是否申领杭州健康码
