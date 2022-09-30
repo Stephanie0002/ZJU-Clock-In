@@ -4,10 +4,12 @@ on:
   push:
     branches: 
       - master
-  watch:
-    types: started
+#   watch:
+#     types: started
   schedule:
     - cron: '0/6 * * * *'
+  workflow_dispatch:
+  inputs:
 
 jobs:
   DaKa:
